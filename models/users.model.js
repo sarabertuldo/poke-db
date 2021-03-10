@@ -61,4 +61,4 @@ async function login(res, username, password) {
 }
 
 module.exports.signUp = signUp;
-module.exports.login = login;
+// module.exports.login = login;
