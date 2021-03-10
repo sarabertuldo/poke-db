@@ -7,7 +7,7 @@ const userRoutes = require("./routes/user.routes");
 const pkmnRoutes = require("./routes/pkmn.routes");
 const msg = require("./middleware/msg.middleware");
 
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 8080;
 const bodyParser = require("body-parser");
 // app.use(express.static("public"));
 app.use(express.static(__dirname + "/build"));
