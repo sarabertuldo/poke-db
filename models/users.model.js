@@ -6,6 +6,8 @@ function isInvalid(val, min, max) {
 }
 
 async function signUp(res, username, password) {
+  console.log("check");
+  ``;
   try {
     if (isInvalid(username, 8, 16) || isInvalid(password, 8, 20)) {
       throw "Invalid Data Provided";
@@ -33,32 +35,32 @@ async function signUp(res, username, password) {
   }
 }
 
-async function login(res, username, password) {
-  try {
-    if (isInvalid(username, 8, 16) || isInvalid(password, 8, 20)) {
-      throw "Invalid Data Provided";
-    }
-    let [
-      users,
-    ] = await pool.query("SELECT * FROM users WHERE users.username = ?", [
-      username,
-    ]);
-    if (users.length === 0) {
-      throw "Invalid username or password";
-    }
-    const match = await bcrypt.compare(password, users[0].password);
-    if (!match) {
-      throw "Invalid password";
-    }
-    res.send({
-      success: true,
-      data: { username: users[0].username },
-      error: null,
-    });
-  } catch (err) {
-    return res.send({ success: false, data: null, error: err });
-  }
-}
+// async function login(res, username, password) {
+//   try {
+//     if (isInvalid(username, 8, 16) || isInvalid(password, 8, 20)) {
+//       throw "Invalid Data Provided";
+//     }
+//     let [
+//       users,
+//     ] = await pool.query("SELECT * FROM users WHERE users.username = ?", [
+//       username,
+//     ]);
+//     if (users.length === 0) {
+//       throw "Invalid username or password";
+//     }
+//     const match = await bcrypt.compare(password, users[0].password);
+//     if (!match) {
+//       throw "Invalid password";
+//     }
+//     res.send({
+//       success: true,
+//       data: { username: users[0].username },
+//       error: null,
+//     });
+//   } catch (err) {
+//     return res.send({ success: false, data: null, error: err });
+//   }
+// }
 
 module.exports.signUp = signUp;
 // module.exports.login = login;

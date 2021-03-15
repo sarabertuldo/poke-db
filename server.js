@@ -11,6 +11,7 @@ const port = process.env.PORT || 8080;
 const bodyParser = require("body-parser");
 // app.use(express.static("public"));
 app.use(express.static(__dirname + "/build"));
+app.use(express.json());
 app.use(
   session({
     secret: process.env.SECRET_KEY,
@@ -27,9 +28,9 @@ app.use("/users", userRoutes);
 app.use("/pkmn", pkmnRoutes);
 
 app.get("/", (req, res) => res.send("Poke App"));
-// app.get("*", (req, res) => res.redirect("/"));
-app.get("*", (req, res) => {
-  res.sendFile("/build/index.html", { root: __dirname + "/" });
-});
+app.get("*", (req, res) => res.redirect("/"));
+// app.get("*", (req, res) => {
+//   res.sendFile("/build/index.html", { root: __dirname + "/" });
+// });
 
 app.listen(port, () => console.log(`This app is listening on port ${port}!`));

@@ -1,19 +1,19 @@
 const pool = require("../config/mysql.conf");
 
 // add function
-async function catchPkmn(res, pkmn, userID) {
+async function catchPkmn(res, poke, userID) {
   if (
-    !pkmn.pkmn ||
-    pkmn.pkmn.length < 1 ||
-    pkmn.pkmn.length > 24 ||
+    !poke.pkmn ||
+    poke.pkmn.length < 1 ||
+    poke.pkmn.length > 24 ||
     isNaN(userID)
   ) {
     throw "Invalid data provided";
   }
   try {
     await pool.query(
-      "INSERT INTO pkmn (user_ID, pkmn, caught) VALUES (?, ?, false)",
-      [userID, pkmn.pkmn]
+      "INSERT INTO pkmn (user_ID, poke, caught) VALUES (?, ?, false)",
+      [userID, poke.pkmn]
     );
     return res.send({
       success: true,
@@ -42,42 +42,12 @@ async function releasePkmn(res, id) {
   }
 }
 
-// async function edit() {}
-// async function edit(res, todo, userID) {
-//   try {
-//     // check for valid info
-//     if (
-//       isNaN(todo.id) ||
-//       !todo.task ||
-//       todo.task.length < 1 ||
-//       todo.task.length > 40 ||
-//       typeof todo.completed !== "boolean"
-//     ) {
-//       throw "Invalid data provided";
-//     }
-// try to update it
-//     await pool.query(
-//       "UPDATE todos SET task = ?, completed = ? WHERE id = ? AND user_ID = ?",
-//       [pkmn.task, todo.completed, todo.id, userID]
-//     );
-//     // send success message
-//     return res.send({
-//       success: true,
-//       data: "Successfully updated Pokemon",
-//       error: null,
-//     });
-//   } catch (err) {
-//     return res.send({
-//       success: false,
-//       data: null,
-//       error: err,
-//     });
-//   }
-// }
-
-async function all(res) {
+async function byUserID(res, userID) {
   try {
-    const [pkmn] = await pool.query("SELECT * FROM pkmn");
+    const [pkmn] = await pool.query(
+      "SELECT * FROM pkmn WHERE pkmn.user_ID = ?",
+      [userID]
+    );
     return res.send({
       success: true,
       data: pkmn,
@@ -88,20 +58,4 @@ async function all(res) {
   }
 }
 
-async function byUserID(res, userID) {
-  try {
-    const [pkmn] = await pool.query(
-      "SELECT * FROM pkmn WHERE pkmn.user_ID = ?",
-      [userID]
-    );
-    return res.send({
-      success: true,
-      data: "Successfully caught the Pokemon!",
-      error: null,
-    });
-  } catch (error) {
-    return res.send({ success: false, data: null, error: error });
-  }
-}
-
-module.exports = { catchPkmn, releasePkmn, all, byUserID };
+module.exports = { catchPkmn, releasePkmn, byUserID };

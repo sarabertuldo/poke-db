@@ -1,13 +1,10 @@
 const express = require("express");
 const router = express.Router();
+const pkmn = require("../models/pkmn.model");
 const isAuth = require("../middleware/isAuth");
 
 router.post("/catchPkmn", isAuth, (req, res) => {
   return pkmn.catchPkmn(res, req.body, req.user.id);
-});
-
-router.all("/all", isAuth, (req, res) => {
-  return pkmn.all(res);
 });
 
 router.get("/user", isAuth, (req, res) => {
@@ -16,10 +13,6 @@ router.get("/user", isAuth, (req, res) => {
 
 router.delete("/releasePkmn/:id", isAuth, (req, res) => {
   return pkmn.releasePkmn(res, req.params.id, req.user.id);
-});
-
-router.patch("/update", isAuth, (req, res) => {
-  return pkmn.edit(res, req.body, req.user.id);
 });
 
 module.exports = router;
