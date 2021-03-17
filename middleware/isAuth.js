@@ -8,7 +8,7 @@ function isAuth(req, res, next) {
         .send({
           success: false,
           data: null,
-          error: "Invalid ",
+          error: "Invalid credentials",
         })
     );
   }
